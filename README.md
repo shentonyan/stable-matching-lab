@@ -29,10 +29,11 @@ stablematch/search.py    costly-search model and equilibrium     (section 2)
 stablematch/market.py    exploratory market simulation           (section 3)
 experiments/             scripts that produce results/
 results/                 saved outputs (JSON / Markdown / CSV)
+docs/figures/            figures used below, drawn from results/ only
 tests/                   pytest
 ```
 
-Reproduce (Python 3.10+, `numpy`, `pytest`):
+Reproduce (Python 3.10+, `numpy`, `pytest`, `matplotlib` for figures):
 
 ```
 pip install -r requirements.txt
@@ -41,6 +42,7 @@ python experiments/run_manipulation.py 3            # all 46,656 profiles
 python experiments/run_manipulation.py 4 20000 0    # 20,000 random profiles, seed 0
 python experiments/run_search.py 3000 3             # about 15 minutes on 2 cores
 python experiments/run_market.py 200                # 200 random worlds per row
+python experiments/make_figures.py                  # redraws docs/figures from results/
 ```
 
 ## 1. Who can profit from lying?
@@ -50,10 +52,18 @@ For each agent we try every ordered list built from any subset of the other
 side (so truncations and permutations), and ask whether the true partner rank
 improves. Being unmatched counts as worst.
 
+![Two panels. A: everyone truthful, w0 gets her second choice m0. B: w0 declares m0 unacceptable and gets her first choice m1.](docs/figures/fig1_truncation_example.png)
+
+*Figure 1. The smallest case where a receiver gains by truncation (checked by a unit test).*
+
 | n | profiles | some man can gain | some woman can gain | gaining woman has a truncation that works | profiles with a unique stable matching | gaining woman while the stable matching is unique |
 |---|---|---|---|---|---|---|
 | 3 | 46,656 (all) | 0 | 12,576 (27.0%) | 12,576 | 34,080 (73.0%) | 0 |
 | 4 | 20,000 (random sample) | 0 | 8,093 (40.5%) | 8,093 | 11,907 (59.5%) | 0 |
+
+![Stacked bars: n=3, 73.0% of profiles have a unique stable matching and 27.0% have a profitable truncation; n=4, 59.5% and 40.5%.](docs/figures/fig2_manipulation.png)
+
+*Figure 2. The same numbers as the table, as shares of profiles.*
 
 What this shows, for these sizes only:
 
@@ -128,6 +138,14 @@ periods to a match and the partner utility):
 | 0.2 | 0.9 | 8 | 0.633 | 0.442 | 16 |
 | 0.2 | 0.95 | 12 | 0.904 | 0.623 | 24 |
 
+![Three panels by delta: equilibrium outside option against batch size K for four date costs, with the best K marked.](docs/figures/fig3_search_batch_size.png)
+
+*Figure 3. Equilibrium outside option against batch size (two-sided model). Dots are the K\* column above.*
+
+![Left: expected periods until a match against expected dates until a match as K grows. Right: match quality and outside option against K for c=0.05, delta=0.9.](docs/figures/fig4_search_tradeoff.png)
+
+*Figure 4. One cell of the grid (c = 0.05, δ = 0.9): bigger batches shorten the wait but cost more dates; net value peaks at K = 32.*
+
 * In every setting there is a batch size above one that gives a higher
   equilibrium outside option than meeting one person at a time.
 * The best batch size K\* rises with patience δ and falls with the date cost c.
@@ -187,6 +205,10 @@ Defaults (200 random worlds, mean ± standard error):
 | cycles | 0.902 ± 0.002 | 1.6 | 2.83 ± 0.03 |
 | events (5 per event) | 0.782 ± 0.003 | 5.0 | 2.56 ± 0.04 |
 | oracle | 0.916 ± 0.002 | 60 | 0 |
+
+![Left: fraction coupled for four mechanisms in the default setting. Right: fraction coupled against event size for events and cycles, with one-shot and the reference as flat lines.](docs/figures/fig5_market_simulation.png)
+
+*Figure 5. Same simulation as the table (uncalibrated; do not read the levels as predictions).*
 
 A "blocking pair" here is a man and woman, not together, who each have higher
 true utility for the other than for their current partner (or their outside
