@@ -1,0 +1,25 @@
+{
+  "n": 3,
+  "mode": "all profiles",
+  "profiles": 46656,
+  "unique_stable": 34080,
+  "men_gain": 0,
+  "women_gain": 12576,
+  "women_gain_by_truncation": 12576,
+  "women_gain_but_unique_stable": 0,
+  "profiles_by_num_stable": {
+    "1": 34080,
+    "2": 11484,
+    "3": 1092
+  },
+  "profiles_with_a_gaining_woman_by_num_stable": {
+    "1": 0,
+    "2": 11484,
+    "3": 1092
+  },
+  "profiles_by_num_gaining_women": {
+    "0": 34080,
+    "2": 10008,
+    "3": 2568
+  }
+}

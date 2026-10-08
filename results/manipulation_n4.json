@@ -1,0 +1,32 @@
+{
+  "n": 4,
+  "mode": "random sample of 20000 profiles (seed 0)",
+  "profiles": 20000,
+  "unique_stable": 11907,
+  "men_gain": 0,
+  "women_gain": 8093,
+  "women_gain_by_truncation": 8093,
+  "women_gain_but_unique_stable": 0,
+  "profiles_by_num_stable": {
+    "1": 11907,
+    "2": 6591,
+    "3": 1329,
+    "4": 159,
+    "5": 11,
+    "6": 3
+  },
+  "profiles_with_a_gaining_woman_by_num_stable": {
+    "1": 0,
+    "2": 6591,
+    "3": 1329,
+    "4": 159,
+    "5": 11,
+    "6": 3
+  },
+  "profiles_by_num_gaining_women": {
+    "0": 11907,
+    "2": 5070,
+    "3": 2195,
+    "4": 828
+  }
+}
