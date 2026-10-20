@@ -1,0 +1,160 @@
+{
+  "seed": 20261021,
+  "worlds": 100,
+  "small_worlds": 30,
+  "pair_cost": 0.05,
+  "scenarios": {
+    "baseline": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.5,
+      "reciprocity": 0.5,
+      "noise": 1.0,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "low_popularity_precise": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.1,
+      "reciprocity": 0.5,
+      "noise": 0.25,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "low_popularity_noisy": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.1,
+      "reciprocity": 0.5,
+      "noise": 2.0,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "high_popularity_precise": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.85,
+      "reciprocity": 0.5,
+      "noise": 0.25,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "high_popularity_noisy": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.85,
+      "reciprocity": 0.5,
+      "noise": 2.0,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "negative_reciprocity": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.5,
+      "reciprocity": -0.5,
+      "noise": 1.0,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "scarce_right": {
+      "n_left": 24,
+      "n_right": 12,
+      "common_appeal": 0.5,
+      "reciprocity": 0.5,
+      "noise": 1.0,
+      "outside_left": 0.0,
+      "outside_right": 0.0
+    },
+    "heterogeneous_outside": {
+      "n_left": 24,
+      "n_right": 24,
+      "common_appeal": 0.5,
+      "reciprocity": 0.5,
+      "noise": 1.0,
+      "outside_left": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "outside_right": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ]
+    }
+  },
+  "budgets_per_left": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "policies": [
+    "random",
+    "score_greedy",
+    "coverage"
+  ],
+  "proposer_sides": [
+    "left",
+    "right"
+  ],
+  "python": "3.12.10",
+  "numpy": "2.5.3",
+  "base_commit": "43001abaa98ac5f33226f496f6ab86c2b73f4dd9",
+  "hash_convention": "SHA256 of bytes after CRLF-to-LF normalization (Git checkout independent)",
+  "source_sha256": {
+    "stablematch/information.py": "2b30539fd60b1cdfdbe25882c849dd911e7c9a93f61e7a8637bf1aedc0604ea6",
+    "experiments/run_information.py": "5786e9aacf34a4a1c3e6bbbf998a6304f3fa524c21d4c47363b31202e1f25b7a",
+    "docs/research-design.md": "e84c2bebd76d396173dbd15c682014c740d98a4af3815a2c055e8799246914ec"
+  },
+  "output_sha256": {
+    "information_decomposition.csv": "c8edc4a6025dac6d1009390b471444a3c0d7d94eb1d3b9f8e362e7b4a41f0396",
+    "information_full_da.csv": "a4a33c44a26b45577d987bd5fa84aace5b3678ca3e1a84dc37e56973f5580f88",
+    "information_worlds.csv": "92aaa38e128c2625fc98652cec0cddf0e4e8a990d2a28f93ee49c70142849ddb"
+  },
+  "status": "exploratory synthetic study; no empirical calibration or equilibrium claim"
+}

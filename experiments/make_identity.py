@@ -76,7 +76,7 @@ def benchmark():
     fig.text(.055, .80, "Spend time on the question.", fontsize=28, color=FOREST, weight="bold")
     fig.text(.055, .735, "Batch deferred acceptance across independent events.", fontsize=12, color="#405b54")
     fig.text(.055, .51, f"{eq['speedup']:.1f}×", fontsize=68, color=FOREST, weight="bold")
-    fig.text(.06, .40, "faster equilibrium solve", fontsize=14, color=FOREST)
+    fig.text(.06, .40, "faster pooled value solve", fontsize=14, color=FOREST)
     fig.text(.06, .335, f"K = {eq['K']} · {eq['events']:,} events · one local run", fontsize=10, color="#536e59")
     ax = fig.add_axes([.51, .32, .43, .32], facecolor=PAPER)
     vals = [eq["scalar_seconds"], eq["batch_seconds"]]
@@ -90,7 +90,7 @@ def benchmark():
         ax.spines[side].set_visible(False)
     ax.spines["bottom"].set_color("#bdc7bb")
     ax.tick_params(length=0, pad=8)
-    fig.text(.055, .17, "Every partner checked against scalar DA. All equilibrium fields agree within 1e−12 tolerance.",
+    fig.text(.055, .17, "Every partner checked against scalar DA. All fixed-point fields agree within 1e−12 tolerance.",
              fontsize=11, color=FOREST)
     fig.text(.055, .105, f"Python {data['python']} · NumPy {data['numpy']} · construction excluded · hardware-dependent timings",
              fontsize=9, color="#536e59")

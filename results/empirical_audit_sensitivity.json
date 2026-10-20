@@ -1,0 +1,54 @@
+{
+  "without_yes_budget_wave": {
+    "raw_directed_rows": 7986,
+    "excluded_directed_rows": 10,
+    "waves": 20,
+    "observed_pairs": 3988,
+    "complete_decision_pairs": 3988,
+    "mutual_yes_pairs": 669,
+    "mutual_yes_rate": 0.16775325977933803,
+    "wave_cluster_bootstrap_95": [
+      0.15162745998765154,
+      0.18615668749404057
+    ],
+    "bootstrap_draws": 2000,
+    "seed": 20261021,
+    "limits": "Observed encounters only; no strict preference ranks, unobserved-pair outcomes, causal policy value or calibration of utility units.",
+    "sha256": "fda9a924b18880fabe6c7a71961cff20aa3c7cc2a5aa8d6e823c2fc41893814c",
+    "excluded_waves": [
+      12
+    ],
+    "source_directed_rows": 8378,
+    "wave_filter_removed_rows": 392
+  },
+  "without_dictionary_flagged_variants": {
+    "raw_directed_rows": 5322,
+    "excluded_directed_rows": 0,
+    "waves": 13,
+    "observed_pairs": 2661,
+    "complete_decision_pairs": 2661,
+    "mutual_yes_pairs": 446,
+    "mutual_yes_rate": 0.16760616309658025,
+    "wave_cluster_bootstrap_95": [
+      0.1467459630025699,
+      0.19286615567040005
+    ],
+    "bootstrap_draws": 2000,
+    "seed": 20261021,
+    "limits": "Observed encounters only; no strict preference ranks, unobserved-pair outcomes, causal policy value or calibration of utility units.",
+    "sha256": "fda9a924b18880fabe6c7a71961cff20aa3c7cc2a5aa8d6e823c2fc41893814c",
+    "excluded_waves": [
+      5,
+      12,
+      13,
+      14,
+      18,
+      19,
+      20,
+      21
+    ],
+    "source_directed_rows": 8378,
+    "wave_filter_removed_rows": 3056
+  },
+  "interpretation": "Descriptive sample-composition sensitivity only; not causal and not a reconstruction of the original paper's 14-session estimation sample."
+}

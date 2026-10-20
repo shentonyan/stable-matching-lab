@@ -1,6 +1,6 @@
-"""Costly two-sided search with batch dating and an endogenous outside option.
+"""Costly search with batch dating and a pooled reservation-value closure.
 
-Environment (stationary, symmetric)
+Environment (iid refreshed opportunities, balanced event sizes)
 -----------------------------------
 * Each period every single person attends an event with K men and K women.
   Everyone meets everyone of the other sex, so each person has K dates and
@@ -14,8 +14,8 @@ Environment (stationary, symmetric)
   discounted by ``delta``. Matched people leave and are replaced by fresh
   singles, so the pool is stationary and identically distributed.
 
-Equilibrium
------------
+Pooled fixed-point closure (not a proved strategic equilibrium)
+-------------------------------------------------------------
 Let V be the value of being single at the start of a period. With p the
 per-period probability of being matched and g = E[u * 1{matched}],
 
@@ -23,16 +23,19 @@ per-period probability of being matched and g = E[u * 1{matched}],
 
 An agent accepts a partner iff u / (1 - delta) >= V, i.e. u >= a with
 a = (1 - delta) * V. The outside option is therefore not a parameter: the
-threshold ``a`` is the fixed point of a = (1 - delta) * V(a), where p and g
-depend on everyone using the same threshold ``a``.
+threshold ``a`` solves a = (1 - delta) * V(a), where p and g pool the two
+sides using the same cutoff. DA can give the sides different utilities, so
+this scalar accounting identity does not establish each side's best response.
+See search_audit.py and docs/theory.md for separate deviation diagnostics.
 
 Special cases with closed forms are used as checks:
 * K = 1, two-sided: p = q^2, g = q * phi(a), q = 1 - Phi(a).
 * one-sided benchmark (every partner accepts anyone, you pick the best of
   your K dates): p = 1 - Phi(a)^K, g = E[max * 1{max >= a}].
 
-Limits: all agents are identical ex ante and utilities are iid, so there is
-no sorting or heterogeneity; agents report truthfully inside an event.
+Limits: iid fresh opportunities are assumed, not a demographic equilibrium;
+there is no persistent sorting or heterogeneity. The historical Equilibrium
+class/API name is retained for backward compatibility with saved experiments.
 """
 
 from __future__ import annotations
@@ -70,10 +73,20 @@ def _value(K: int, c: float, delta: float, p: float, g: float) -> float:
 
 def solve_threshold(stats, K: int, c: float, delta: float,
                     lo: float = -8.0, hi: float = 8.0, tol: float = 1e-4) -> Equilibrium:
-    """Bisection on h(a) = (1 - delta) V(a) - a, with (p, g) = stats(a)."""
+    """Bracket bisection for a pooled value closure, not Nash certification.
+
+    Finite Monte Carlo stats may be discontinuous. Bracket width controls
+    cutoff precision, not the residual of h or existence/uniqueness.
+    """
+    if (not isinstance(K, (int, np.integer)) or isinstance(K, bool) or K < 1
+            or not np.isfinite(c) or c < 0 or not 0 < delta < 1
+            or not np.isfinite([lo, hi, tol]).all() or lo >= hi or tol <= 0):
+        raise ValueError("require positive integer K, c >= 0, 0 < delta < 1 and finite lo < hi, tol > 0")
 
     def h(a: float) -> float:
         p, g = stats(a)
+        if not np.isfinite([p, g]).all() or not 0 <= p <= 1:
+            raise ValueError("stats must return finite match probability in [0,1] and utility")
         return (1 - delta) * _value(K, c, delta, p, g) - a
 
     if h(lo) < 0 or h(hi) > 0:
@@ -120,11 +133,14 @@ def make_stats_one_sided(K: int):
 class EventSimulator:
     """Monte Carlo (p, g) for K-vs-K events at a common threshold.
 
-    Utilities are drawn once (common random numbers) so that p(a), g(a) are
-    smooth enough for bisection across thresholds.
+    Utilities are drawn once (common random numbers) to reduce comparison
+    noise. Finite-sample p(a), g(a) are step functions, not smooth functions.
     """
 
     def __init__(self, K: int, n_events: int, seed: int):
+        if any(not isinstance(n, (int, np.integer)) or isinstance(n, bool) or n < 1
+               for n in (K, n_events)):
+            raise ValueError("K and n_events must be positive integers")
         rng = np.random.default_rng(seed)
         self.K, self.N = K, n_events
         self.UM = rng.standard_normal((n_events, K, K))  # [e, man, woman]
