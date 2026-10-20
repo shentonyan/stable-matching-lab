@@ -42,8 +42,6 @@ from math import erf, exp, pi, sqrt
 
 import numpy as np
 
-from .gs import deferred_acceptance
-
 
 def phi(x: float) -> float:
     return exp(-x * x / 2) / sqrt(2 * pi)
@@ -131,22 +129,55 @@ class EventSimulator:
         self.K, self.N = K, n_events
         self.UM = rng.standard_normal((n_events, K, K))  # [e, man, woman]
         self.UW = rng.standard_normal((n_events, K, K))  # [e, woman, man]
-        self.order_m = np.argsort(-self.UM, axis=2).tolist()
+        self._order_m = np.argsort(-self.UM, axis=2)
+        self.order_m = self._order_m.tolist()
         self.order_w = np.argsort(-self.UW, axis=2).tolist()
+        self._rank_w = np.argsort(np.asarray(self.order_w), axis=2)
 
     def __call__(self, a: float):
+        match = self.matchings(a)
+        events, men = np.nonzero(match >= 0)
+        women = match[events, men]
+        total_u = (self.UM[events, men, women]
+                   + self.UW[events, women, men]).sum()
+        return len(events) / (self.N * self.K), float(total_u / (2 * self.N * self.K))
+
+    def matchings(self, a: float) -> np.ndarray:
+        """Return proposer-optimal DA matches, shape (events, men).
+
+        Free men propose in parallel across independent events. Each woman
+        keeps her best proposal or incumbent. Rejected men continue next
+        round; each man makes at most K proposals. Preferences remain strict
+        (the same argsort tie order as the scalar implementation).
+        """
         K, N = self.K, self.N
         mutual = (self.UM > a) & np.transpose(self.UW > a, (0, 2, 1))
-        pairs, total_u = 0, 0.0
-        for e in range(N):
-            am = mutual[e]
-            if not am.any():
-                continue
-            pm = [[j for j in self.order_m[e][i] if am[i, j]] for i in range(K)]
-            pw = [[i for i in self.order_w[e][j] if am[i, j]] for j in range(K)]
-            match = deferred_acceptance(pm, pw)
-            for i, j in enumerate(match):
-                if j != -1:
-                    pairs += 1
-                    total_u += self.UM[e, i, j] + self.UW[e, j, i]
-        return pairs / (N * K), total_u / (2 * N * K)
+        rank_w = self._rank_w
+        acceptable_order = np.take_along_axis(mutual, self._order_m, axis=2)
+        # Stable partition retains each man's true order and skips all
+        # unacceptable pairs rather than spending rounds proposing to them.
+        partition = np.argsort(~acceptable_order, axis=2, kind="stable")
+        order = np.take_along_axis(self._order_m, partition, axis=2)
+        counts = mutual.sum(axis=2)
+        # K denotes an empty receiver; every actual rank is smaller.
+        best = np.full((N, K), K, dtype=np.intp)
+        match = np.full((N, K), -1, dtype=np.intp)
+        holder = np.full((N, K), -1, dtype=np.intp)
+        nxt = np.zeros((N, K), dtype=np.intp)
+        while True:
+            events, men = np.nonzero((match < 0) & (nxt < counts))
+            if not len(events):
+                return match
+            women = order[events, men, nxt[events, men]]
+            nxt[events, men] += 1
+            ranks = rank_w[events, women, men]
+            # Include incumbents, and resolve competing proposals atomically.
+            np.minimum.at(best, (events, women), ranks)
+            won = ranks == best[events, women]
+            events, men, women = events[won], men[won], women[won]
+            # Displace the former holder before installing each new one.
+            previous = holder[events, women]
+            displaced = previous >= 0
+            match[events[displaced], previous[displaced]] = -1
+            holder[events, women] = men
+            match[events, men] = women

@@ -1,0 +1,44 @@
+{
+  "python": "3.12.10",
+  "numpy": "2.5.3",
+  "timings": [
+    {
+      "K": 1,
+      "events": 1000,
+      "scalar_seconds": 0.0023954999924171716,
+      "batch_seconds": 0.0002066000015474856,
+      "speedup": 11.5948691891301
+    },
+    {
+      "K": 8,
+      "events": 1000,
+      "scalar_seconds": 0.03528880001977086,
+      "batch_seconds": 0.006453999987570569,
+      "speedup": 5.467740949447129
+    },
+    {
+      "K": 24,
+      "events": 1000,
+      "scalar_seconds": 0.22144190000835806,
+      "batch_seconds": 0.043418999994173646,
+      "speedup": 5.100115157835813
+    },
+    {
+      "K": 48,
+      "events": 1000,
+      "scalar_seconds": 0.777730400004657,
+      "batch_seconds": 0.15654450000147335,
+      "speedup": 4.968110665001563
+    }
+  ],
+  "equilibrium": {
+    "K": 24,
+    "events": 1000,
+    "c": 0.1,
+    "delta": 0.9,
+    "scalar_seconds": 1.1751556000090204,
+    "batch_seconds": 0.20921020000241697,
+    "speedup": 5.617104710933999,
+    "threshold": 0.800079345703125
+  }
+}
