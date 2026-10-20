@@ -1,0 +1,5 @@
+results/information_*.csv linguist-generated=true
+results/information_summary.json linguist-generated=true
+paper/results/*.csv linguist-generated=true
+paper/generated/* linguist-generated=true
+paper/manuscript.pdf linguist-generated=true

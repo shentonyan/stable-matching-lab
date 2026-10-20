@@ -1,0 +1,39 @@
+{
+  "numeric_source": "paper/generated/numbers.json",
+  "generated_artifact_manifest": "paper/generated/manifest.json",
+  "numbers": {
+    "BaseLeftMean": 0.07416716606059717,
+    "BaseLeftLow": 0.06580895150255167,
+    "BaseLeftHigh": 0.08267669676549293,
+    "NoiseLeftMean": 0.008982555387573476,
+    "NoiseLeftLow": 0.0033438274029507567,
+    "NoiseLeftHigh": 0.014730132602654869,
+    "BudgetLeftMean": -0.06481603662303838,
+    "BudgetLeftLow": -0.07051926576923137,
+    "BudgetLeftHigh": -0.05904377632124796,
+    "BaseRightMean": 0.07434966918883387,
+    "BaseRightLow": 0.06601681090458107,
+    "BaseRightHigh": 0.08283559102639901,
+    "NoiseRightMean": 0.008921469074400957,
+    "NoiseRightLow": 0.003284925914075938,
+    "NoiseRightHigh": 0.014680875860950604,
+    "BudgetRightMean": -0.06450681414091036,
+    "BudgetRightLow": -0.07015022497141367,
+    "BudgetRightHigh": -0.05871060200477829,
+    "ValidationWorlds": 500,
+    "StressWorlds": 500,
+    "StressMultiple": 199,
+    "StressInterior": 15,
+    "StressLeftLoss": 104,
+    "EmpiricalPairs": 4184,
+    "EmpiricalYes": 690,
+    "EmpiricalPercent": 16.491395793499045
+  },
+  "scopes": {
+    "primary_validation": "500 independent worlds within each of two scenarios; six paired contrasts",
+    "exploration": "100 worlds/scenario; 19,200 correlated treatment rows",
+    "exact": "30 worlds; 540 treatment rows",
+    "stress": "separate post hoc population; 500 worlds",
+    "empirical": "21 historical waves; observed encounters only"
+  }
+}

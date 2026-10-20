@@ -5,3 +5,4 @@ __pycache__/
 results/*.pkl
 work/
 data/raw/
+paper/build/

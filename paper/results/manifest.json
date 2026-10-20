@@ -1,0 +1,23 @@
+{
+  "python": "3.12.10",
+  "numpy": "2.5.3",
+  "source_hashes": {
+    "paper/run_analysis.py": "695ec06b8dfbe4f728f6e7c9c359ab419510df7c103734b3a3d3897f4bcfce7d",
+    "stablematch/stable_optimum.py": "444201c5276399143e4aeadd518fda877583853fe7c95b0b69b91824a13ec6e9",
+    "stablematch/information.py": "2b30539fd60b1cdfdbe25882c849dd911e7c9a93f61e7a8637bf1aedc0604ea6",
+    "stablematch/gs.py": "614badb043d1429f02dc875dddbfae007dddf8160b9dbc60c744278a8e317fb7",
+    "paper/validation_protocol.md": "84605114c9b66f11e040ed672b5947397e7c8bbcdd9695f5d8b9badf6c831bb4"
+  },
+  "input_hashes": {
+    "results/information_worlds.csv": "92aaa38e128c2625fc98652cec0cddf0e4e8a990d2a28f93ee49c70142849ddb",
+    "results/information_decomposition.csv": "c8edc4a6025dac6d1009390b471444a3c0d7d94eb1d3b9f8e362e7b4a41f0396",
+    "results/information_manifest.json": "bb2f8910e097f54dbe50164d6146ae0a2363993a93bbbeeb6cdbd3999462635f"
+  },
+  "output_hashes": {
+    "selection_stress.csv": "d67d20d7ed2b7b86a7bc7ee853de982629281c64cc0b5de4b1526b22fe0b52ee",
+    "three_gaps.csv": "b94ef166a58c8d63b665637c50a72bfd7e6f10807f295f43803156eed1631e5c",
+    "validation_summary.json": "353d1ff94d211a2353ba51e950f192a6104f20a94d4f37eb320f8c24142a64f5",
+    "validation_worlds.csv": "e6e1738274132a8c7240816aeaca2bb16d301e8bcfb5a75ee03b108266ec4b3c"
+  },
+  "hash_convention": "SHA256 after CRLF-to-LF normalization"
+}

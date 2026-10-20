@@ -40,3 +40,5 @@ jobs:
         pytest
     - name: Validate saved research artifacts
       run: python experiments/validate_research.py
+    - name: Validate working paper evidence
+      run: python paper/validate.py

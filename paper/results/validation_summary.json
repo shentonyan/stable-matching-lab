@@ -1,0 +1,306 @@
+{
+  "seed": 20271101,
+  "worlds_per_scenario": 500,
+  "bootstrap_draws": 20000,
+  "family_size": 6,
+  "adjusted_marginal_coverage": 0.9916666666666667,
+  "contrasts": [
+    {
+      "id": "baseline_policy",
+      "proposer": "left",
+      "scenario": "baseline",
+      "candidate": {
+        "budget": 48,
+        "policy": "coverage"
+      },
+      "reference": {
+        "budget": 48,
+        "policy": "score_greedy"
+      },
+      "ordinary95": {
+        "mean": 0.07416716606059717,
+        "low": 0.06789329827811012,
+        "high": 0.08040805583110557,
+        "n": 500
+      },
+      "bonferroni_family6": {
+        "mean": 0.07416716606059717,
+        "low": 0.06580895150255167,
+        "high": 0.08267669676549293,
+        "n": 500
+      }
+    },
+    {
+      "id": "noisy_policy",
+      "proposer": "left",
+      "scenario": "high_popularity_noisy",
+      "candidate": {
+        "budget": 48,
+        "policy": "coverage"
+      },
+      "reference": {
+        "budget": 48,
+        "policy": "score_greedy"
+      },
+      "ordinary95": {
+        "mean": 0.008982555387573476,
+        "low": 0.004750030039819226,
+        "high": 0.013290560971049161,
+        "n": 500
+      },
+      "bonferroni_family6": {
+        "mean": 0.008982555387573476,
+        "low": 0.0033438274029507567,
+        "high": 0.014730132602654869,
+        "n": 500
+      }
+    },
+    {
+      "id": "baseline_budget",
+      "proposer": "left",
+      "scenario": "baseline",
+      "candidate": {
+        "budget": 192,
+        "policy": "coverage"
+      },
+      "reference": {
+        "budget": 96,
+        "policy": "coverage"
+      },
+      "ordinary95": {
+        "mean": -0.06481603662303838,
+        "low": -0.06907369691725908,
+        "high": -0.06053692434031218,
+        "n": 500
+      },
+      "bonferroni_family6": {
+        "mean": -0.06481603662303838,
+        "low": -0.07051926576923137,
+        "high": -0.05904377632124796,
+        "n": 500
+      }
+    },
+    {
+      "id": "baseline_policy",
+      "proposer": "right",
+      "scenario": "baseline",
+      "candidate": {
+        "budget": 48,
+        "policy": "coverage"
+      },
+      "reference": {
+        "budget": 48,
+        "policy": "score_greedy"
+      },
+      "ordinary95": {
+        "mean": 0.07434966918883387,
+        "low": 0.06807722053504829,
+        "high": 0.08055671088645383,
+        "n": 500
+      },
+      "bonferroni_family6": {
+        "mean": 0.07434966918883387,
+        "low": 0.06601681090458107,
+        "high": 0.08283559102639901,
+        "n": 500
+      }
+    },
+    {
+      "id": "noisy_policy",
+      "proposer": "right",
+      "scenario": "high_popularity_noisy",
+      "candidate": {
+        "budget": 48,
+        "policy": "coverage"
+      },
+      "reference": {
+        "budget": 48,
+        "policy": "score_greedy"
+      },
+      "ordinary95": {
+        "mean": 0.008921469074400957,
+        "low": 0.0046783547471633815,
+        "high": 0.013228232762947096,
+        "n": 500
+      },
+      "bonferroni_family6": {
+        "mean": 0.008921469074400957,
+        "low": 0.003284925914075938,
+        "high": 0.014680875860950604,
+        "n": 500
+      }
+    },
+    {
+      "id": "baseline_budget",
+      "proposer": "right",
+      "scenario": "baseline",
+      "candidate": {
+        "budget": 192,
+        "policy": "coverage"
+      },
+      "reference": {
+        "budget": 96,
+        "policy": "coverage"
+      },
+      "ordinary95": {
+        "mean": -0.06450681414091036,
+        "low": -0.06874406386366018,
+        "high": -0.060246199053663935,
+        "n": 500
+      },
+      "bonferroni_family6": {
+        "mean": -0.06450681414091036,
+        "low": -0.07015022497141367,
+        "high": -0.05871060200477829,
+        "n": 500
+      }
+    }
+  ],
+  "training_selected_budget_evaluation": [
+    {
+      "cost": 0.0,
+      "proposer": "left",
+      "selected_budget": 192,
+      "training_mean": 0.8851955401952774,
+      "heldout": {
+        "mean": 0.8781685716713648,
+        "low": 0.8686256596723552,
+        "high": 0.8879561186439446,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.025,
+      "proposer": "left",
+      "selected_budget": 96,
+      "training_mean": 0.7920005504611973,
+      "heldout": {
+        "mean": 0.792984608294403,
+        "low": 0.7833465196127997,
+        "high": 0.8028169899043339,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.05,
+      "proposer": "left",
+      "selected_budget": 96,
+      "training_mean": 0.7420005504611973,
+      "heldout": {
+        "mean": 0.742984608294403,
+        "low": 0.7333465196127996,
+        "high": 0.752816989904334,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.1,
+      "proposer": "left",
+      "selected_budget": 48,
+      "training_mean": 0.6689414486200639,
+      "heldout": {
+        "mean": 0.667751010252975,
+        "low": 0.658229072847363,
+        "high": 0.6774349977316155,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.2,
+      "proposer": "left",
+      "selected_budget": 24,
+      "training_mean": 0.5903818010037064,
+      "heldout": {
+        "mean": 0.5924111856977056,
+        "low": 0.5816402919996485,
+        "high": 0.6033430498638331,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.4,
+      "proposer": "left",
+      "selected_budget": 24,
+      "training_mean": 0.4903818010037064,
+      "heldout": {
+        "mean": 0.4924111856977055,
+        "low": 0.48164029199964836,
+        "high": 0.503343049863833,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.0,
+      "proposer": "right",
+      "selected_budget": 192,
+      "training_mean": 0.8861691714289396,
+      "heldout": {
+        "mean": 0.87821232338757,
+        "low": 0.868649318561963,
+        "high": 0.8880337758132841,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.025,
+      "proposer": "right",
+      "selected_budget": 96,
+      "training_mean": 0.7922575301214334,
+      "heldout": {
+        "mean": 0.7927191375284803,
+        "low": 0.7830789337322254,
+        "high": 0.8025151329594155,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.05,
+      "proposer": "right",
+      "selected_budget": 96,
+      "training_mean": 0.7422575301214335,
+      "heldout": {
+        "mean": 0.7427191375284805,
+        "low": 0.7330789337322254,
+        "high": 0.7525151329594156,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.1,
+      "proposer": "right",
+      "selected_budget": 48,
+      "training_mean": 0.6690680438386418,
+      "heldout": {
+        "mean": 0.6677658806447694,
+        "low": 0.658243905400668,
+        "high": 0.6774499466795512,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.2,
+      "proposer": "right",
+      "selected_budget": 24,
+      "training_mean": 0.5903818010037064,
+      "heldout": {
+        "mean": 0.5924111856977056,
+        "low": 0.5816402919996485,
+        "high": 0.6033430498638331,
+        "n": 500
+      }
+    },
+    {
+      "cost": 0.4,
+      "proposer": "right",
+      "selected_budget": 24,
+      "training_mean": 0.4903818010037064,
+      "heldout": {
+        "mean": 0.4924111856977055,
+        "low": 0.48164029199964836,
+        "high": 0.503343049863833,
+        "n": 500
+      }
+    }
+  ],
+  "interpretation": "Independent synthetic-world validation; adjusted bootstrap coverage is approximate, not an empirical or exact finite-sample guarantee."
+}

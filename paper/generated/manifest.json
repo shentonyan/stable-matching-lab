@@ -1,0 +1,30 @@
+{
+  "source_hashes": {
+    "paper/make_artifacts.py": "135641d3c37e95e25d4168396129b582347c538ee028826dbb77367fc3f256aa",
+    "paper/references.json": "4583a0bec3d4b7cb6e0e369b43738218ece1ff8f31d9a72b66c23f58c2a7912b",
+    "paper/results/validation_summary.json": "353d1ff94d211a2353ba51e950f192a6104f20a94d4f37eb320f8c24142a64f5",
+    "paper/results/three_gaps.csv": "b94ef166a58c8d63b665637c50a72bfd7e6f10807f295f43803156eed1631e5c",
+    "paper/results/selection_stress.csv": "d67d20d7ed2b7b86a7bc7ee853de982629281c64cc0b5de4b1526b22fe0b52ee",
+    "results/empirical_audit.json": "4c316d28a07ade06359ab5fd80288cac1180142514bea1ffe1ec84b8957445e6",
+    "results/information_worlds.csv": "92aaa38e128c2625fc98652cec0cddf0e4e8a990d2a28f93ee49c70142849ddb"
+  },
+  "text_output_hashes": {
+    "cost_rows.tex": "02e7b962f61a77b74ea2ceb7ae6549650d516d5569d102c66f252a8172a6fcc8",
+    "cost_table.tex": "589a2f819567fc5a838363d54efee6bf58c973d5d9b0433a8df2370f3d3fab76",
+    "numbers.json": "0128d6c3d726f10b6ab6feff2b41602433275a6c1aa9de42d6f330580a317237",
+    "numbers.tex": "9aa038e5721358dd60030536a452316da64f21bda285ac4de9447286bbb262ef",
+    "references.tex": "972a4acf19d83ba004fa14f630f30319f27d28a3d7e5a6c6e1576a96559b0fa0",
+    "validation_rows.tex": "dd8824fab87afac9dd4605589ba280adc90d5535c5e8754d403a411afe322b06",
+    "validation_table.tex": "46faab07cfede551e0dc156cc7380e9e5d0f16935a86f495c6651e112e3cb3e7"
+  },
+  "binary_output_hashes": {
+    "cost_envelope.pdf": "5b7fc439123c2bcd11974c1f0ae842d4342290f55eb748ddf915943840828a56",
+    "cost_envelope.png": "e263dad84a0ed66417f132e523f732aae0040fdd74fe6a0b39c1c43f68ffeddd",
+    "revelation.pdf": "990fd3ffd04b6211c1a1684b27f184a5957ccbe58101067e8cf9db209561c470",
+    "revelation.png": "a0269b5fec8179e704cebcad0b23cd11417de1db9386aca620e662ff52951ad7",
+    "three_gaps.pdf": "1f56009a9b725016fa2f43fafa4aa4d6ad81bf8d8f14c92b7b2cd635b6916016",
+    "three_gaps.png": "b732e974f78491ac8caa0b0b50a78a86f297749f44cb4594091abfd390ef04da",
+    "validation.pdf": "3f357985276690a6acacce5f5c721d14201335248ee1d4c9f29a6e5a0f992070",
+    "validation.png": "cc99727ba9ce9f98f93e15be0e5b701db9bfee2b11673c40e45e37ce9d9e4488"
+  }
+}
