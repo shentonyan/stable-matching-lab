@@ -24,17 +24,15 @@ ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "results"
 OUT = ROOT / "docs" / "figures"
 
-# Palette: categorical slots 1-3, the blue ordinal ramp and neutral chrome.
-# Every set was run through the dataviz palette validator (light mode,
-# surface #fcfcfb) before use.
-SURFACE, INK, INK2, MUTED = "#fcfcfb", "#0b0b0b", "#52514e", "#898781"
-GRID, AXIS, NEUTRAL_FILL = "#e1e0d9", "#c3c2b7", "#c8c7bf"
-BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"
-ORDINAL = ["#86b6ef", "#3987e5", "#1c5cab", "#0d366b"]  # light -> dark
+# Shared editorial palette: warm paper, forest ink and restrained terracotta.
+SURFACE, INK, INK2, MUTED = "#f8f6f0", "#173c35", "#405b54", "#64736a"
+GRID, AXIS, NEUTRAL_FILL = "#e4e5da", "#bdc7bb", "#d9dfd2"
+BLUE, ORANGE, AQUA = "#236657", "#b44d30", "#897324"
+ORDINAL = ["#849b73", "#548568", "#2c6955", "#153f35"]
 
 plt.rcParams.update({
     "font.family": "sans-serif",
-    "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
+    "font.sans-serif": ["DejaVu Sans", "Arial", "Helvetica"],
     "font.size": 9.5,
     "axes.edgecolor": AXIS,
     "axes.labelcolor": INK2,
@@ -53,7 +51,7 @@ def style(ax, grid_axis="y"):
     for s in ("left", "bottom"):
         ax.spines[s].set_color(AXIS)
         ax.spines[s].set_linewidth(0.8)
-    ax.grid(True, axis=grid_axis, color=GRID, linewidth=0.7, linestyle="-")
+    ax.grid(True, axis=grid_axis, color=GRID, linewidth=0.6, linestyle="-")
     ax.set_axisbelow(True)
     ax.tick_params(length=0, labelsize=9, labelcolor=INK2, pad=5)
 
@@ -70,7 +68,7 @@ def footnote(fig, text, y=0.012):
 
 def save(fig, name):
     OUT.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUT / name, dpi=150, bbox_inches="tight", pad_inches=0.22)
+    fig.savefig(OUT / name, dpi=180, bbox_inches="tight", pad_inches=0.28)
     plt.close(fig)
     print("wrote", OUT / name)
 
@@ -113,9 +111,9 @@ def fig_example():
             ax.text(x + 0.95, y, txt, ha="left", va="center", fontsize=9.2, color=INK2)
         ax.text(5.0, -0.25, note, ha="center", va="center", fontsize=9.6, color=INK)
     headline(fig, "A receiver can gain by shortening her list",
-             "Men propose. Each person's true ranking is shown next to the name; the blue line is w0's partner.",
+             "Men propose. Each person's true ranking is shown next to the name; the green line is w0's partner.",
              y=1.03)
-    footnote(fig, "Circles: blue = proposing side (men), orange = receiving side (women). "
+    footnote(fig, "Circles: green = proposing side (men), orange = receiving side (women). "
                   "Unit test: tests/test_gs.py::test_truncation_example_helps_the_receiver", y=-0.03)
     save(fig, "fig1_truncation_example.png")
 
@@ -183,12 +181,13 @@ def fig_search_threshold(S):
     Ks = sorted({k[2] for k in S})
     cs = sorted({k[0] for k in S})
     ds = sorted({k[1] for k in S})
+    line_styles = ["-", "--", "-.", ":"]
     fig, axes = plt.subplots(1, 3, figsize=(11.2, 4.3), sharey=True)
     for ax, delta in zip(axes, ds):
         style(ax)
-        for c, col in zip(cs, ORDINAL):
+        for c, col, ls in zip(cs, ORDINAL, line_styles):
             ax.plot(Ks, [S[(c, delta, K)]["threshold"] for K in Ks], color=col, lw=1.9,
-                    solid_capstyle="round", solid_joinstyle="round")
+                    linestyle=ls, solid_capstyle="round", solid_joinstyle="round")
             kb = max(Ks, key=lambda K: S[(c, delta, K)]["threshold"])
             ax.plot([kb], [S[(c, delta, kb)]["threshold"]], "o", ms=8.5, color=col,
                     mec=SURFACE, mew=2, zorder=5)
@@ -198,7 +197,8 @@ def fig_search_threshold(S):
         ax.set_xlabel("batch size K (people met per period)")
     axes[0].set_ylabel("equilibrium outside option a*\n(net of date costs)")
     axes[0].yaxis.set_major_locator(FixedLocator([-1, -0.5, 0, 0.5, 1, 1.5]))
-    handles = [Line2D([0], [0], color=col, lw=2.6, label=f"c = {c}") for c, col in zip(cs, ORDINAL)]
+    handles = [Line2D([0], [0], color=col, linestyle=ls, lw=2.6, label=f"c = {c}")
+               for c, col, ls in zip(cs, ORDINAL, line_styles)]
     fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.045, 0.885), ncol=4, frameon=False,
                fontsize=9.5, title="cost per date (light to dark: low to high)", title_fontsize=9,
                alignment="left", handlelength=1.8, columnspacing=1.8)
