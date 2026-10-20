@@ -9,10 +9,11 @@
 </p>
 
 <p align="center">
+  <a href="#information-constrained-matching">Research study</a> &nbsp; / &nbsp;
   <a href="#1-who-can-profit-from-lying">Incentives</a> &nbsp; / &nbsp;
   <a href="#2-costly-search-with-batch-dating">Costly search</a> &nbsp; / &nbsp;
   <a href="#layout">Run the experiments</a> &nbsp; / &nbsp;
-  <a href="#faster-equilibrium-search">Performance</a> &nbsp; / &nbsp;
+  <a href="#faster-reservation-value-search">Performance</a> &nbsp; / &nbsp;
   <a href="#references">References</a>
 </p>
 
@@ -20,19 +21,22 @@
 
 **Stable outcomes. Strategic reports. Costly encounters.**
 
-Small experiments around the Gale–Shapley deferred acceptance (DA) algorithm [1],
-motivated by Singapore's FirstDate government dating pilot, which matches
-people from a questionnaire using DA [16]. Everything here is a model or an
-enumeration: the numbers say what happens under the stated assumptions, not
-what happens in any real service.
+A computational research environment for Gale–Shapley deferred acceptance (DA),
+costly preference discovery and the distribution of matching opportunities.
+The [official FirstDate pilot](https://firstdate.sandbox.gov.sg/) provides one
+real institutional motivation; this project does not reproduce its private
+algorithm or estimate its effects. The [evidence review](docs/evidence.md)
+connects the project to established matching and information-acquisition research.
 
-Three pieces:
+The main study asks **how a platform should allocate scarce encounters when
+compatibility is uncertain and participants compete for the same partners**.
+The earlier experiments remain available:
 
 1. **Manipulation explorer** – brute-force every possible misreport of one
    agent and check who can profit under men-proposing DA.
-2. **Costly search with batch dating** – a stationary two-sided search model in
-   which the outside option is determined inside the model rather than set by
-   hand, used to ask how many people one should meet per period.
+2. **Costly search with batch dating** – an iid-reset search model with a pooled
+   reservation-value fixed point, used to explore batch size. It is not a proved
+   strategic equilibrium; a separate holdout deviation audit is now included.
 3. **Exploratory market simulation** – an earlier, uncalibrated simulation that
    compares one-shot DA, repeated DA cycles and event matching.
 
@@ -42,8 +46,61 @@ Numbers in square brackets refer to the [References](#references).
 | Explore | The question | Start here |
 |:--|:--|:--|
 | **01 · Incentives** | Who benefits from changing their reported preferences? | [Manipulation explorer](#1-who-can-profit-from-lying) |
-| **02 · Costly search** | How many people should you meet when every date costs something? | [Equilibrium model](#2-costly-search-with-batch-dating) |
+| **02 · Costly search** | How many people should you meet when every date costs something? | [Reservation-value model](#2-costly-search-with-batch-dating) |
 | **03 · Market design** | What changes when matching happens once, repeatedly, or at events? | [Market simulation](stablematch/market.py) |
+
+## Information-constrained matching
+
+**Research question.** At a fixed number of bilateral inspections, when does
+targeting predicted compatibility improve population surplus, and when do
+concentrated exposure and stable reassignment undermine that improvement?
+
+![Equal-budget synthetic comparisons across inspection budgets and market scenarios, with world-level bootstrap intervals.](docs/figures/information_tradeoffs.png)
+
+The finite-market model includes shared partner popularity, reciprocal pair
+compatibility, noisy observable scores, unequal side sizes and heterogeneous
+absolute outside options. An inspection reveals both utilities on one pair.
+Random, score-greedy and coverage-discounted policies inspect exactly the same
+number of distinct pairs on the same latent world before DA. Both proposer
+directions are evaluated. Unmatched people, pair costs, exposure inequality
+and hidden blocking pairs remain in the accounting.
+
+| Research layer | Implemented evidence | Read more |
+|:--|:--|:--|
+| **Mechanism comparison** | 8 scenarios × 100 paired worlds × 4 budgets × 3 policies × 2 proposer sides = 19,200 runs | [Design](docs/research-design.md) · [Findings](docs/findings.md) |
+| **Exact reference** | 8-by-8 planner dynamic programming separates missing-information loss from the DA allocation gap | [Theory](docs/theory.md) · [Raw decomposition](results/information_decomposition.csv) |
+| **Falsification** | Exact counterexamples: more inspected edges can reduce DA welfare or match count | [Executable witnesses](tests/test_research_theory.py) |
+| **Legacy-model audit** | Pooled-value residual and train/holdout single-agent cutoff deviations | [Model audit](docs/model-audit.md) · [Diagnostic output](results/threshold_audit.json) |
+| **Observed-data bridge** | Original Columbia data: 4,184 encounters, 690 mutual-yes pairs; reciprocal records checked | [Data protocol](docs/data-protocol.md) · [Aggregates](results/empirical_audit.json) |
+
+In the baseline at 48 inspections, coverage-minus-greedy net surplus is
+**+0.0715 per person** (paired world-bootstrap 95% interval **0.0572–0.0862**).
+In the high-popularity/noisy scenario the corresponding interval includes zero.
+These are exploratory synthetic results conditional on declared parameters;
+they do not establish calibrated real-platform effects or a universally best
+policy. The [findings](docs/findings.md) retain null and negative comparisons.
+
+![Small-market exact references distinguish missing-information loss from the DA allocation gap.](docs/figures/information_decomposition.png)
+
+The planner optimum need not be stable. The DA allocation gap includes the
+stability requirement and the choice of a particular stable outcome; it is not
+a pure identified stability cost. Full-information DA is a **reference**, not a
+welfare upper bound. Revealed stability and global latent blocking are reported
+separately. No Nash-equilibrium or established novelty claim is made.
+
+Reproduce the new study:
+
+```bash
+python experiments/run_information.py --worlds 100 --small-worlds 30
+python experiments/run_threshold_audit.py --events 2000
+python experiments/make_research_figures.py
+python experiments/validate_research.py
+# Obtain the original public CSV locally; raw records are not redistributed.
+python experiments/audit_speed_dating.py --input data/raw/speed-dating.csv
+```
+
+[Source-backed positioning](docs/evidence.md) · [Full study protocol](docs/research-design.md) ·
+[Mathematical boundaries](docs/theory.md) · [Chinese research overview](docs/research-overview.zh-CN.md)
 
 ## Layout
 
@@ -51,8 +108,11 @@ Numbers in square brackets refer to the [References](#references).
 stablematch/gs.py        DA with incomplete lists, blocking pairs, brute-force
                          stable matchings, many-to-one DA
 stablematch/explore.py   misreport search                        (section 1)
-stablematch/search.py    costly-search model and equilibrium     (section 2)
+stablematch/search.py    pooled reservation-value closure        (section 2)
 stablematch/market.py    exploratory market simulation           (section 3)
+stablematch/information.py finite, equal-inspection-budget research model
+stablematch/search_audit.py single-agent deviations with held-out evaluation
+stablematch/empirical.py original speed-dating encounter graph audit
 experiments/             scripts that produce results/
 results/                 saved outputs (JSON / Markdown / CSV)
 docs/figures/            figures used below, drawn from results/ only
@@ -66,7 +126,7 @@ pip install -r requirements.txt
 python -m pytest
 python experiments/run_manipulation.py 3            # all 46,656 profiles
 python experiments/run_manipulation.py 4 20000 0    # 20,000 random profiles, seed 0
-python experiments/run_search.py 3000 3             # about 15 minutes on 2 cores
+python experiments/run_search.py 3000 3             # pooled search-model parameter sweep
 python experiments/run_market.py 200                # 200 random worlds per row
 python experiments/make_figures.py                  # redraws docs/figures from results/
 python experiments/make_identity.py                 # cover + measured performance graphic
@@ -81,15 +141,15 @@ proposer-optimal outcome are unchanged. Utility sums can differ at floating-poin
 roundoff because the reduction order changes. Tests compare every partner with
 the scalar DA oracle, including empty and complete acceptability graphs.
 
-The benchmark checks statistics and a complete equilibrium against the original
+The benchmark checks statistics and a complete reservation-value solve against the original
 scalar loop before reporting timings. It excludes simulator construction; its
 three-threshold timings are medians of three runs. Speed depends on batch size,
 market size and hardware, and batching uses additional O(events × K²) working
 memory. Saved research outputs have not been regenerated by this optimization.
 
-## Faster equilibrium search
+## Faster reservation-value search
 
-![Local benchmark: the K=24, 1,000-event equilibrium solve takes 1.175 seconds with scalar DA and 0.209 seconds with batch DA, approximately 5.6 times faster.](docs/figures/benchmark.png)
+![Local benchmark: the K=24, 1,000-event pooled value solve takes 1.175 seconds with scalar DA and 0.209 seconds with batch DA, approximately 5.6 times faster.](docs/figures/benchmark.png)
 
 The figure uses the [saved local benchmark](results/benchmark_search.json),
 not an estimate of every machine's performance. Reproduce the comparison with
@@ -140,7 +200,12 @@ on the date, how many people should one meet per period, and what does the
 outside option look like once it is determined by the market instead of
 assumed?
 
-**Model** (`stablematch/search.py`, stationary and symmetric):
+**Historical model** (`stablematch/search.py`, iid refreshed opportunities):
+
+The historical API class is named `Equilibrium`, but the pooled scalar solution
+has not been proved a strategic equilibrium. Proposer DA can yield different
+side utilities even when match counts are equal. See [the audit](docs/model-audit.md)
+before using this section's numerical fixed points as equilibrium predictions.
 
 * Each period every single person attends an event with K men and K women and
   meets all K people of the other sex. K = 1 is one date at a time; larger K
@@ -155,7 +220,7 @@ assumed?
 * With p the per-period probability of being matched and g = E[u · 1{matched}],
   the value of being single satisfies V = −cK + δ(g/(1−δ) + (1−p)V). A person
   accepts a partner iff u/(1−δ) ≥ V, so the threshold is **a = (1−δ)V**. That
-  fixed point is the equilibrium outside option; it is also the welfare measure
+  fixed point is the pooled reservation-value closure; it is also the welfare measure
   reported below (net of date costs).
 
 Setup of the grid: c ∈ {0.02, 0.05, 0.1, 0.2}, δ ∈ {0.8, 0.9, 0.95}, K up to
@@ -296,7 +361,9 @@ Caveats that matter when reading these numbers:
 
 ## Future work
 
-Not done yet; listed so that the gaps are explicit.
+The new finite-market study implements part of the earlier roadmap. The
+remaining gaps are explicit below; an observed-data audit is completed, but
+the synthetic cardinal utility model is not fitted to real behavior.
 
 1. **Calibrate with real data.** Speed-dating data [12] and online-dating data
    [13] could be used to estimate the spread of match utilities, the shared
@@ -310,12 +377,15 @@ Not done yet; listed so that the gaps are explicit.
    turns them into scores, so manipulation acts on the answers. Questions:
    what is the equilibrium of that reporting game, and how much welfare does
    it cost compared with the truthful benchmark?
-3. **Screening information in the search model.** Let a platform pre-select
+3. **Screening information in the search model.** The new finite-market study
+   compares signal-based encounter allocation under matched budgets. Extending
+   that analysis to the reservation-value framework remains open: let a platform pre-select
    partners (people matching, K = 1 draws from a better-than-random pool)
    versus assigning people to events (larger K, less targeted), and compare
    them in the section 2 framework. This is my own extension; no source.
-4. **Heterogeneity and sorting.** Replace identical agents by types so that
-   thresholds differ across agents, in the spirit of [8].
+4. **Persistent heterogeneity and sorting.** The new study includes popularity,
+   unequal sides and heterogeneous outside options. A persistent evolving
+   search pool with type-specific strategic continuation values remains open.
 5. **Formal verification of the receiver-side manipulation.** A Lean 4
    development of DA exists [15]; per its README it covers complete preference
    lists only and includes the proposer-side result ("men shouldn't lie").
