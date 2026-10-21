@@ -21,6 +21,13 @@
 
 **Stable outcomes. Strategic reports. Costly encounters.**
 
+**Working paper:** [Read the PDF](paper/manuscript.pdf) ·
+[中文论文导读](paper/reading-guide.zh-CN.md) · [Source and reproducibility](paper/README.md)
+
+The paper connects a bounded-utility, single-encounter welfare counterexample
+to exact information/stability/DA-selection accounting and independent-world
+validation. Its sources, derivations, limits and pending human checks are explicit.
+
 A computational research environment for Gale–Shapley deferred acceptance (DA),
 costly preference discovery and the distribution of matching opportunities.
 The [official FirstDate pilot](https://firstdate.sandbox.gov.sg/) provides one
